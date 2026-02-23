@@ -180,6 +180,11 @@ export default defineConfig({
       "localhost",
       "127.0.0.1",
     ],
+    hmr: {
+      protocol: "wss",
+      host: "auto",
+      port: "auto",
+    },
     fs: {
       strict: true,
       deny: ["**/.*"],
