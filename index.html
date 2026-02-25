@@ -13,13 +13,9 @@
     <div id="root"></div>
     <script type="module" src="/client/src/main.tsx"></script>
     <script type="module">
-      const analyticsEndpoint = "%VITE_ANALYTICS_ENDPOINT%";
-      const websiteId = "%VITE_ANALYTICS_WEBSITE_ID%";
-      const hasAnalyticsConfig =
-        analyticsEndpoint &&
-        websiteId &&
-        !analyticsEndpoint.startsWith("%VITE_") &&
-        !websiteId.startsWith("%VITE_");
+      const analyticsEndpoint = import.meta.env.VITE_ANALYTICS_ENDPOINT;
+      const websiteId = import.meta.env.VITE_ANALYTICS_WEBSITE_ID;
+      const hasAnalyticsConfig = Boolean(analyticsEndpoint && websiteId);
 
       if (hasAnalyticsConfig) {
         const script = document.createElement("script");
