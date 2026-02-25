@@ -152,8 +152,14 @@ function vitePluginManusDebugCollector(): Plugin {
 
 const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector()];
 
+const githubRepoName = process.env.GITHUB_REPOSITORY?.split("/")[1];
+const githubPagesBase =
+  process.env.VITE_BASE_PATH ?? (process.env.GITHUB_ACTIONS === "true" && githubRepoName ? `/${githubRepoName}/` : "/");
+
 export default defineConfig({
+  base: githubPagesBase,
   plugins,
+  publicDir: path.resolve(import.meta.dirname, "client", "public"),
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "client", "src"),
@@ -162,7 +168,7 @@ export default defineConfig({
     },
   },
   envDir: path.resolve(import.meta.dirname),
-  root: path.resolve(import.meta.dirname, "client"),
+  root: path.resolve(import.meta.dirname),
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
