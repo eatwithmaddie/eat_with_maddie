@@ -52,7 +52,7 @@ type DeliveryZone = {
 const WHATSAPP_NUMBER = "237679719340";
 const PHONE_NUMBER_DISPLAY = "+237 679 719 340";
 const PHONE_NUMBER_LINK = "tel:+237679719340";
-const INSTAGRAM_HANDLE = "@madii_dove";
+const INSTAGRAM_HANDLE = "madii_dove";
 const INSTAGRAM_URL = "https://instagram.com/madii_dove";
 const SNAPCHAT_HANDLE = "maddiebelle1493";
 const SNAPCHAT_URL = "https://www.snapchat.com/add/maddiebelle1493";
@@ -268,7 +268,7 @@ const copy = {
     aboutTitle: "About Us",
     heroTitle: "Eat With Maddie",
     heroSubtitle: "Burgundy kitchen energy, menu variety, and fast order confirmation on WhatsApp.",
-    orderNow: "Order on WhatsApp",
+    orderNow: "Message on WhatsApp",
     callNow: "Call now",
     menuTitle: "Full Menu",
     menuSubtitle: "",
@@ -291,7 +291,7 @@ const copy = {
     deliveryFee: "Delivery fee",
     sendOrder: "Send Full Order on WhatsApp",
     eta: "ETA",
-    testimonialsTitle: "What Our Customers Say",
+    testimonialsTitle: "Reviews",
     testimonialsSubtitle: "Consistency and variety drive repeat orders.",
     footerLine: "© Eat With Maddie, Douala, Cameroon",
     location: "Douala, Cameroon",

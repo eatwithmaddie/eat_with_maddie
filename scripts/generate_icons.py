@@ -11,23 +11,24 @@ ICON_SIZES = {
     "icon-32x32.png": 32,
     "icon-48x48.png": 48,
     "icon-64x64.png": 64,
-    "apple-touch-icon.png": 180,
     "android-chrome-192x192.png": 192,
     "android-chrome-512x512.png": 512,
 }
+APPLE_TOUCH_ICON_FILENAME = "apple-touch-icon.png"
+APPLE_TOUCH_ICON_SIZE = 180
 
 
 def load_best_frame(source: Path) -> Image.Image:
-    with Image.open(source) as ico:
-        frame_count = getattr(ico, "n_frames", 1)
+    with Image.open(source) as image:
+        frame_count = getattr(image, "n_frames", 1)
         best: Image.Image | None = None
         best_area = -1
         best_max_edge = -1
 
         for frame_index in range(frame_count):
             if frame_count > 1:
-                ico.seek(frame_index)
-            frame = ico.convert("RGBA")
+                image.seek(frame_index)
+            frame = image.convert("RGBA")
             width, height = frame.size
             area = width * height
             max_edge = max(width, height)
@@ -53,7 +54,7 @@ def resize_icon(base_icon: Image.Image, target_size: int) -> Image.Image:
     return canvas
 
 
-def generate_icons(source: Path, output_dir: Path) -> None:
+def generate_icons(source: Path, output_dir: Path, apple_source: Path | None = None) -> None:
     if not source.exists():
         raise FileNotFoundError(f"Input icon not found: {source}")
 
@@ -66,10 +67,22 @@ def generate_icons(source: Path, output_dir: Path) -> None:
         image.save(target, format="PNG", optimize=True)
         print(f"Wrote {target}")
 
+    apple_base_icon = base_icon
+    if apple_source is not None:
+        if apple_source.exists():
+            apple_base_icon = load_best_frame(apple_source)
+        else:
+            print(f"Apple icon source not found, using default source: {apple_source}")
+
+    apple_target = output_dir / APPLE_TOUCH_ICON_FILENAME
+    apple_image = resize_icon(apple_base_icon, APPLE_TOUCH_ICON_SIZE)
+    apple_image.save(apple_target, format="PNG", optimize=True)
+    print(f"Wrote {apple_target}")
+
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Generate web/app icon PNGs from a .ico source file."
+        description="Generate web/app icon PNGs from a source image."
     )
     parser.add_argument(
         "input",
@@ -82,11 +95,17 @@ def main() -> None:
         default="client/public/icons",
         help="Output directory for PNG icons (default: client/public/icons)",
     )
+    parser.add_argument(
+        "--apple-source",
+        default="assets/Icons/eatwithmaddie.png",
+        help="Optional source image for apple-touch-icon (default: assets/Icons/eatwithmaddie.png)",
+    )
     args = parser.parse_args()
 
     source = Path(args.input)
     output_dir = Path(args.output)
-    generate_icons(source=source, output_dir=output_dir)
+    apple_source = Path(args.apple_source) if args.apple_source else None
+    generate_icons(source=source, output_dir=output_dir, apple_source=apple_source)
 
 
 if __name__ == "__main__":
