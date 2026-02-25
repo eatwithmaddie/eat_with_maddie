@@ -14,6 +14,8 @@ import {
   Truck,
 } from "lucide-react";
 import { useMemo, useState } from "react";
+import instagramIcon from "../../../assets/Icons/Instagram.svg";
+import snapchatIcon from "../../../assets/Icons/Snapchat.svg";
 
 type Language = "en" | "fr";
 type CategoryId =
@@ -50,55 +52,59 @@ type DeliveryZone = {
 const WHATSAPP_NUMBER = "237679719340";
 const PHONE_NUMBER_DISPLAY = "+237 679 719 340";
 const PHONE_NUMBER_LINK = "tel:+237679719340";
+const INSTAGRAM_HANDLE = "@madii_dove";
+const INSTAGRAM_URL = "https://instagram.com/madii_dove";
+const SNAPCHAT_HANDLE = "maddiebelle1493";
+const SNAPCHAT_URL = "https://www.snapchat.com/add/maddiebelle1493";
 
 const menuCategories: MenuCategory[] = [
   {
     id: "breakfast",
-    title: { en: "Breakfast Specials", fr: "Specials Petit Dejeuner" },
+    title: { en: "Breakfast Specials", fr: "Offres spéciales petit déjeuner" },
     subtitle: {
       en: "Morning comfort plates, waffles, sandwiches, and eggs.",
-      fr: "Plats du matin, gaufres, sandwiches et oeufs.",
+      fr: "Plats du matin, gaufres, sandwiches et œufs.",
     },
     availability: { en: "7:00 AM - 11:00 AM", fr: "07:00 - 11:00" },
   },
   {
     id: "starters",
-    title: { en: "Small Chops & Starters", fr: "Small Chops et Entrees" },
+    title: { en: "Small Chops & Starters", fr: "Small Chops et entrées" },
     subtitle: {
       en: "Crispy party bites and appetizers.",
-      fr: "Bouchees et entrees croustillantes.",
+      fr: "Bouchées et entrées croustillantes.",
     },
   },
   {
     id: "pizzas",
-    title: { en: "Pizzas (Freshly Baked)", fr: "Pizzas (Fraichement Cuites)" },
+    title: { en: "Pizzas (Freshly Baked)", fr: "Pizzas (fraîchement cuites)" },
     subtitle: {
-      en: "Classic favorites and Maddie's house mix.",
-      fr: "Classiques et special maison de Maddie.",
+      en: "Classic favorites and Maddie's specialties.",
+      fr: "Classiques et spécialités maison de Maddie.",
     },
   },
   {
     id: "grill",
-    title: { en: "BBQ & Grill", fr: "BBQ et Grill" },
+    title: { en: "BBQ & Grill", fr: "BBQ et grill" },
     subtitle: {
       en: "Grilled meats, fish, wings, shawarma, and burgers.",
-      fr: "Viandes grillees, poisson, wings, shawarma et burgers.",
+      fr: "Viandes grillées, poisson, wings, shawarma et burgers.",
     },
   },
   {
     id: "pasta",
-    title: { en: "Pasta & More", fr: "Pates et Plus" },
+    title: { en: "Pasta & More", fr: "Pâtes et plus" },
     subtitle: {
       en: "Pasta, noodles, rice dishes, and fusion favorites.",
-      fr: "Pates, nouilles, riz et favoris fusion.",
+      fr: "Pâtes, nouilles, riz et favoris fusion.",
     },
   },
   {
     id: "cameroon",
-    title: { en: "Cameroonian & African Dishes", fr: "Plats Camerounais et Africains" },
+    title: { en: "Cameroonian & African Dishes", fr: "Plats camerounais et africains" },
     subtitle: {
       en: "Traditional heritage dishes prepared with home flavor.",
-      fr: "Plats traditionnels de terroir prepares maison.",
+      fr: "Plats traditionnels de terroir préparés maison.",
     },
   },
   {
@@ -234,24 +240,24 @@ const deliveryZones: DeliveryZone[] = [
 
 const testimonials = [
   {
-    name: "Aurelie",
+    name: "Aurélie",
     quote: {
-      en: "Her African plates taste homemade every single time. Delivery is reliable.",
-      fr: "Ses plats africains ont toujours le vrai gout maison. Livraison fiable.",
+      en: "Her African dishes taste homemade every single time. Delivery is reliable.",
+      fr: "Ses plats africains ont toujours un vrai goût fait maison. Livraison fiable.",
     },
   },
   {
-    name: "Cedric",
+    name: "Cédric",
     quote: {
-      en: "The menu range is huge, and WhatsApp ordering is fast.",
-      fr: "La carte est tres large et commander via WhatsApp est rapide.",
+      en: "The menu offers great variety, and WhatsApp ordering is fast.",
+      fr: "La carte est très variée et commander via WhatsApp est rapide.",
     },
   },
   {
     name: "Nadine",
     quote: {
       en: "From breakfast to grill, quality stays consistent.",
-      fr: "Du petit dejeuner au grill, la qualite reste constante.",
+      fr: "Du petit déjeuner au grill, la qualité reste constante.",
     },
   },
 ];
@@ -261,68 +267,65 @@ const copy = {
     brandTag: "Where flavor meets soul",
     aboutTitle: "About Us",
     heroTitle: "Eat With Maddie",
-    heroSubtitle: "Burgundy kitchen energy, full menu variety, and fast order confirmation on WhatsApp.",
+    heroSubtitle: "Burgundy kitchen energy, menu variety, and fast order confirmation on WhatsApp.",
     orderNow: "Order on WhatsApp",
     callNow: "Call now",
-    menuTitle: "Full Menu",
-    menuSubtitle: "Everything is categorized so customers can find meals quickly without noise.",
+    menuTitle: "Menu",
+    menuSubtitle: "",
     allCategories: "All Categories",
     addToOrder: "Add",
     menuCount: "items",
     deliveryTitle: "Delivery Zones in Douala",
-    deliverySubtitle: "Pick your zone so Maddie gets the right dispatch info immediately.",
+    deliverySubtitle: "Select your zone for accurate delivery timing and fees.",
     orderFormTitle: "Finalize Your Order",
-    orderFormSubtitle: "Select dishes, add your details, then send one complete WhatsApp order.",
+    orderFormSubtitle: "Select your dishes, add your details, then send your full order via WhatsApp.",
     nameLabel: "Your name",
     phoneLabel: "Phone number",
     addressLabel: "Delivery address",
-    noteLabel: "Special instruction",
-    notePlaceholder: "Spice level, no onions, gate code, event quantity...",
+    noteLabel: "Special instructions",
+    notePlaceholder: "Spice level, no onions, gate code, quantity for events...",
     summaryTitle: "Selected Items",
-    summaryHint: "Food prices are confirmed on daily menu updates.",
+    summaryHint: "Prices are in accord to the daily menu.",
     emptyCart: "No dishes selected yet.",
     selectedCount: "Selected dishes",
     deliveryFee: "Delivery fee",
     sendOrder: "Send Full Order on WhatsApp",
     eta: "ETA",
-    socialLine: "Instagram: @madii_dove | Snapchat: maddiebelle1493",
-    testimonialsTitle: "Customer Trust",
+    testimonialsTitle: "What Our Customers Say",
     testimonialsSubtitle: "Consistency and variety drive repeat orders.",
-    footerLine: "© Eat With Maddie, Douala Cameroon",
+    footerLine: "© Eat With Maddie, Douala, Cameroon",
     location: "Douala, Cameroon",
   },
   fr: {
-    brandTag: "La ou la saveur rencontre l'ame",
-    aboutTitle: "A propos de nous",
+    brandTag: "Là où la saveur rencontre l'âme",
+    aboutTitle: "À propos de nous",
     heroTitle: "Eat With Maddie",
-    heroSubtitle: "Style bordeaux, menu complet, et confirmation rapide via WhatsApp.",
+    heroSubtitle: "Style bordeaux, menu complet et confirmation rapide via WhatsApp.",
     orderNow: "Commander sur WhatsApp",
     callNow: "Appeler maintenant",
-    menuTitle: "Menu Complet",
-    menuSubtitle: "Tout est classe par categorie pour une navigation rapide et propre.",
-    allCategories: "Toutes les categories",
+    menuTitle: "Menu complet",
+    allCategories: "Toutes les catégories",
     addToOrder: "Ajouter",
     menuCount: "articles",
-    deliveryTitle: "Zones de Livraison a Douala",
-    deliverySubtitle: "Choisissez votre zone pour une expedition plus precise.",
-    orderFormTitle: "Finaliser la Commande",
-    orderFormSubtitle: "Selectionnez vos plats, ajoutez vos infos, puis envoyez la commande WhatsApp.",
+    deliveryTitle: "Zones de livraison à Douala",
+    deliverySubtitle: "Choisissez votre zone pour une estimation plus précise.",
+    orderFormTitle: "Finaliser la commande",
+    orderFormSubtitle: "Sélectionnez vos plats, ajoutez vos informations, puis envoyez votre commande complète via WhatsApp.",
     nameLabel: "Votre nom",
-    phoneLabel: "Numero de telephone",
+    phoneLabel: "Numéro de téléphone",
     addressLabel: "Adresse de livraison",
-    noteLabel: "Instruction speciale",
-    notePlaceholder: "Niveau de piment, sans oignons, code du portail, quantite evenement...",
-    summaryTitle: "Articles Selectionnes",
-    summaryHint: "Les prix des plats sont confirmes via le menu du jour.",
-    emptyCart: "Aucun plat selectionne pour l'instant.",
-    selectedCount: "Plats selectionnes",
+    noteLabel: "Instructions spéciales",
+    notePlaceholder: "Niveau de piment, sans oignons, code du portail, quantité pour un événement...",
+    summaryTitle: "Articles sélectionnés",
+    summaryHint: "Les prix sont confirmés selon le menu du jour.",
+    emptyCart: "Aucun plat sélectionné pour le moment.",
+    selectedCount: "Plats sélectionnés",
     deliveryFee: "Frais de livraison",
-    sendOrder: "Envoyer la Commande Complete sur WhatsApp",
-    eta: "Delai",
-    socialLine: "Instagram: @madii_dove | Snapchat: maddiebelle1493",
-    testimonialsTitle: "Confiance Client",
-    testimonialsSubtitle: "La constance et la variete creent les commandes repetees.",
-    footerLine: "© Eat With Maddie, Douala Cameroun",
+    sendOrder: "Envoyer la commande complète sur WhatsApp",
+    eta: "Délai",
+    testimonialsTitle: "Confiance des clients",
+    testimonialsSubtitle: "La constance et la variété fidélisent nos clients.",
+    footerLine: "© Eat With Maddie, Douala, Cameroun",
     location: "Douala, Cameroun",
   },
 };
@@ -392,18 +395,18 @@ function Home() {
 
   const getWhatsAppMessage = () => {
     const lineItems = cartRows.map((item) => `- ${item.quantity} x ${item.name}`);
-    const unknown = language === "fr" ? "Non renseigne" : "Not provided";
+    const unknown = language === "fr" ? "Non renseigné" : "Not provided";
 
     return [
       language === "fr" ? "Nouvelle commande - Eat With Maddie" : "New Order - Eat With Maddie",
       "",
-      language === "fr" ? "Plats selectionnes:" : "Selected dishes:",
+      language === "fr" ? "Plats sélectionnés:" : "Selected dishes:",
       ...(lineItems.length > 0 ? lineItems : ["-"]),
       "",
       `${t.selectedCount}: ${selectedDishCount}`,
       `${t.deliveryFee}: ${formatFcfa(selectedZone.fee)}`,
       `${language === "fr" ? "Zone" : "Zone"}: ${selectedZone.name[language]} (${t.eta}: ${selectedZone.eta[language]})`,
-      language === "fr" ? "Prix plats: confirms via menu du jour." : "Dish prices: confirmed via daily menu.",
+      language === "fr" ? "Les prix sont confirmés selon le menu du jour." : "Prices are in accord to the daily menu.",
       "",
       `${t.nameLabel}: ${name.trim() || unknown}`,
       `${t.phoneLabel}: ${phone.trim() || unknown}`,
@@ -475,7 +478,7 @@ function Home() {
               <div>
                 <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm text-white/90">
                   <Globe size={15} />
-                  {language === "fr" ? "Version francaise active" : "English version active"}
+                  {language === "fr" ? "Version française activée" : "English version active"}
                 </p>
                 <h1 className="text-balance text-5xl font-semibold leading-tight text-white md:text-7xl">{t.heroTitle}</h1>
                 <p className="mt-4 max-w-xl text-base text-white/85 md:text-lg">{t.heroSubtitle}</p>
@@ -505,15 +508,34 @@ function Home() {
               <div className="rounded-2xl border border-white/20 bg-black/15 p-6 backdrop-blur-sm md:p-7">
                 <h2 className="text-3xl text-white md:text-4xl">{t.aboutTitle}</h2>
                 <div className="mt-4 space-y-3 text-sm text-white/90 md:text-base">
-                  <p className="flex items-center gap-2"><MapPin size={15} /> Douala, Cameroon</p>
-                  <p className="flex items-center gap-2"><Clock3 size={15} /> {language === "fr" ? "Petit dejeuner: 07:00 - 11:00" : "Breakfast: 7:00 AM - 11:00 AM"}</p>
+                  <p className="flex items-center gap-2"><MapPin size={15} /> {t.location}</p>
+                  <p className="flex items-center gap-2"><Clock3 size={15} /> {language === "fr" ? "Petit déjeuner : 07:00 - 11:00" : "Breakfast: 7:00 AM - 11:00 AM"}</p>
                   <p className="flex items-center gap-2"><Phone size={15} /> {PHONE_NUMBER_DISPLAY}</p>
-                  <p>{t.socialLine}</p>
+                  <a
+                    href={INSTAGRAM_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-white/90 transition-colors hover:text-white"
+                    aria-label="Instagram profile"
+                  >
+                    <img src={instagramIcon} alt="" aria-hidden="true" className="h-[15px] w-[15px] shrink-0 object-contain opacity-90" />
+                    <span>{INSTAGRAM_HANDLE}</span>
+                  </a>
+                  <a
+                    href={SNAPCHAT_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-white/90 transition-colors hover:text-white"
+                    aria-label="Snapchat profile"
+                  >
+                    <img src={snapchatIcon} alt="" aria-hidden="true" className="h-[15px] w-[15px] shrink-0 object-contain opacity-90" />
+                    <span>{SNAPCHAT_HANDLE}</span>
+                  </a>
                 </div>
                 <p className="mt-5 rounded-xl border border-white/20 bg-white/10 p-3 text-xs text-white/90 md:text-sm">
                   {language === "fr"
-                    ? "Confirmez la commande et Maddie recoit instantanement votre panier complet sur WhatsApp."
-                    : "Confirm and Maddie gets your full basket instantly on WhatsApp."}
+                    ? "Confirmez votre commande et Maddie reçoit instantanément le détail complet sur WhatsApp."
+                    : "Confirm and Maddie receives your complete order instantly on WhatsApp."}
                 </p>
               </div>
             </div>
@@ -523,7 +545,9 @@ function Home() {
         <section className="border-b border-[var(--surface-line)] bg-[var(--surface-0)] py-14 md:py-20">
           <div className="container">
             <h2 className="text-center text-4xl text-[var(--brand-900)] md:text-5xl">{t.menuTitle}</h2>
-            <p className="mx-auto mt-3 max-w-3xl text-center text-[var(--ink-muted)]">{t.menuSubtitle}</p>
+            {t.menuSubtitle && (
+              <p className="mx-auto mt-3 max-w-3xl text-center text-[var(--ink-muted)]">{t.menuSubtitle}</p>
+            )}
 
             <div className="mt-7 flex flex-wrap justify-center gap-2">
               <button
@@ -575,16 +599,18 @@ function Home() {
 
                     return (
                       <AccordionItem key={category.id} value={category.id} className="mb-3 rounded-xl border border-[var(--surface-line)] px-4">
-                        <AccordionTrigger className="hover:no-underline">
-                          <div className="flex flex-wrap items-center gap-2 pr-4">
-                            <span className={`rounded-full border px-3 py-1 text-xs font-semibold text-white bg-gradient-to-r ${categoryToneClasses[category.id]}`}>
+                        <AccordionTrigger className="text-base hover:no-underline">
+                          <div className="flex min-w-0 flex-wrap items-center gap-2 pr-4">
+                            <span
+                              className={`basis-full rounded-2xl border bg-gradient-to-r px-3.5 py-2 text-left text-base leading-snug font-semibold text-white sm:basis-auto sm:text-[1.05rem] ${categoryToneClasses[category.id]}`}
+                            >
                               {category.title[language]}
                             </span>
-                            <span className="text-xs text-[var(--ink-muted)]">
+                            <span className="text-sm font-medium text-[var(--ink-muted)] sm:text-[0.95rem]">
                               {items.length} {t.menuCount}
                             </span>
                             {category.availability && (
-                              <span className="rounded-full border border-[var(--brand-200)] bg-[var(--surface-1)] px-2 py-1 text-xs text-[var(--brand-800)]">
+                              <span className="rounded-full border border-[var(--brand-200)] bg-[var(--surface-1)] px-2.5 py-1 text-sm leading-snug text-[var(--brand-800)] sm:text-[0.95rem]">
                                 {category.availability[language]}
                               </span>
                             )}
@@ -644,16 +670,18 @@ function Home() {
 
                     return (
                       <AccordionItem key={category.id} value={category.id} className="mb-3 rounded-xl border border-[var(--surface-line)] px-4">
-                        <AccordionTrigger className="hover:no-underline">
-                          <div className="flex flex-wrap items-center gap-2 pr-4">
-                            <span className={`rounded-full border px-3 py-1 text-xs font-semibold text-white bg-gradient-to-r ${categoryToneClasses[category.id]}`}>
+                        <AccordionTrigger className="text-base hover:no-underline">
+                          <div className="flex min-w-0 flex-wrap items-center gap-2 pr-4">
+                            <span
+                              className={`basis-full rounded-2xl border bg-gradient-to-r px-3.5 py-2 text-left text-base leading-snug font-semibold text-white sm:basis-auto sm:text-[1.05rem] ${categoryToneClasses[category.id]}`}
+                            >
                               {category.title[language]}
                             </span>
-                            <span className="text-xs text-[var(--ink-muted)]">
+                            <span className="text-sm font-medium text-[var(--ink-muted)] sm:text-[0.95rem]">
                               {items.length} {t.menuCount}
                             </span>
                             {category.availability && (
-                              <span className="rounded-full border border-[var(--brand-200)] bg-[var(--surface-1)] px-2 py-1 text-xs text-[var(--brand-800)]">
+                              <span className="rounded-full border border-[var(--brand-200)] bg-[var(--surface-1)] px-2.5 py-1 text-sm leading-snug text-[var(--brand-800)] sm:text-[0.95rem]">
                                 {category.availability[language]}
                               </span>
                             )}
