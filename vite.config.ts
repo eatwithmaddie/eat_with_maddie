@@ -3,7 +3,7 @@ import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import fs from "node:fs";
 import path from "node:path";
-import { defineConfig, type Plugin, type ViteDevServer } from "vite";
+import { defineConfig, type Plugin, type UserConfig, type ViteDevServer } from "vite";
 import { vitePluginManusRuntime } from "vite-plugin-manus-runtime";
 
 // =============================================================================
@@ -150,50 +150,58 @@ function vitePluginManusDebugCollector(): Plugin {
   };
 }
 
-const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector()];
-
 const githubRepoName = process.env.GITHUB_REPOSITORY?.split("/")[1];
 const githubPagesBase =
   process.env.VITE_BASE_PATH ?? (process.env.GITHUB_ACTIONS === "true" && githubRepoName ? `/${githubRepoName}/` : "/");
 
-export default defineConfig({
-  base: githubPagesBase,
-  plugins,
-  publicDir: path.resolve(import.meta.dirname, "client", "public"),
-  resolve: {
-    alias: {
-      "@": path.resolve(import.meta.dirname, "client", "src"),
-      "@shared": path.resolve(import.meta.dirname, "shared"),
-      "@assets": path.resolve(import.meta.dirname, "attached_assets"),
+export default defineConfig(({ command }): UserConfig => {
+  const isServe = command === "serve";
+  const plugins = [react(), tailwindcss(), jsxLocPlugin()];
+
+  // Keep Manus tooling for local preview only; do not inject it into production pages builds.
+  if (isServe) {
+    plugins.push(vitePluginManusRuntime(), vitePluginManusDebugCollector());
+  }
+
+  return {
+    base: githubPagesBase,
+    plugins,
+    publicDir: path.resolve(import.meta.dirname, "client", "public"),
+    resolve: {
+      alias: {
+        "@": path.resolve(import.meta.dirname, "client", "src"),
+        "@shared": path.resolve(import.meta.dirname, "shared"),
+        "@assets": path.resolve(import.meta.dirname, "attached_assets"),
+      },
     },
-  },
-  envDir: path.resolve(import.meta.dirname),
-  root: path.resolve(import.meta.dirname),
-  build: {
-    outDir: path.resolve(import.meta.dirname, "dist/public"),
-    emptyOutDir: true,
-  },
-  server: {
-    port: 3000,
-    strictPort: false, // Will find next available port if 3000 is busy
-    host: true,
-    allowedHosts: [
-      ".manuspre.computer",
-      ".manus.computer",
-      ".manus-asia.computer",
-      ".manuscomputer.ai",
-      ".manusvm.computer",
-      "localhost",
-      "127.0.0.1",
-    ],
-    hmr: {
-      protocol: "wss",
-      host: "auto",
-      port: "auto",
+    envDir: path.resolve(import.meta.dirname),
+    root: path.resolve(import.meta.dirname),
+    build: {
+      outDir: path.resolve(import.meta.dirname, "dist/public"),
+      emptyOutDir: true,
     },
-    fs: {
-      strict: true,
-      deny: ["**/.*"],
+    server: {
+      port: 3000,
+      strictPort: false, // Will find next available port if 3000 is busy
+      host: true,
+      allowedHosts: [
+        ".manuspre.computer",
+        ".manus.computer",
+        ".manus-asia.computer",
+        ".manuscomputer.ai",
+        ".manusvm.computer",
+        "localhost",
+        "127.0.0.1",
+      ],
+      hmr: {
+        protocol: "wss",
+        host: "auto",
+        port: "auto",
+      },
+      fs: {
+        strict: true,
+        deny: ["**/.*"],
+      },
     },
-  },
+  };
 });
