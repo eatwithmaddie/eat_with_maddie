@@ -32,6 +32,22 @@ jobs:
           node-version: 20
           cache: "pnpm"
 
+      - name: Verify Pages source is GitHub Actions
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          API_URL="https://api.github.com/repos/${{ github.repository }}/pages"
+          BUILD_TYPE="$(curl -fsSL \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            "${API_URL}" | jq -r '.build_type // "unknown"')"
+
+          if [ "${BUILD_TYPE}" != "workflow" ]; then
+            echo "::error::GitHub Pages source is '${BUILD_TYPE}'. Set Settings > Pages > Source to 'GitHub Actions'."
+            exit 1
+          fi
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
