@@ -50,7 +50,7 @@ const copy = {
   },
   fr: {
     heroSubtitle: "Repas frais, Livraisons instantanées",
-    orderNow: "Commander sur WhatsApp",
+    orderNow: "WhatsApp",
     menuTitle: "Menu du jour",
     menuSubtitle: "Choisissez parmi les plats disponibles aujourd'hui.",
     loading: "Chargement du menu du jour...",
@@ -174,7 +174,7 @@ function Home() {
 
     const timer = window.setInterval(() => {
       carouselApi.scrollNext();
-    }, 3200);
+    }, 4200);
 
     return () => {
       window.clearInterval(timer);
@@ -355,11 +355,15 @@ function Home() {
               </div>
             </div>
             <div className="mx-auto w-full max-w-[340px] lg:mx-0 lg:justify-self-end">
-              <Carousel setApi={setCarouselApi} opts={{ loop: true }} className="w-full">
-                <CarouselContent className="-ml-0">
+              <Carousel
+                setApi={setCarouselApi}
+                opts={{ loop: true, duration: 42 }}
+                className="w-full"
+              >
+                <CarouselContent className="-ml-6">
                   {HERO_CAROUSEL_IMAGES.map((image, index) => (
-                    <CarouselItem key={image.src600} className="pl-0">
-                      <div className="overflow-hidden rounded-[28%] border border-white/20 bg-white/10 shadow-lg shadow-black/30">
+                    <CarouselItem key={image.src600} className="pl-6">
+                      <div className="overflow-hidden rounded-[18px] border border-white/20">
                         <img
                           src={image.src600}
                           srcSet={`${image.src360} 360w, ${image.src600} 600w`}

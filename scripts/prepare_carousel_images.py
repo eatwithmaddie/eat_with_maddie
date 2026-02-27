@@ -4,7 +4,7 @@ import argparse
 import re
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageOps
+from PIL import Image, ImageOps
 
 
 VALID_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp"}
@@ -35,22 +35,14 @@ def get_height_from_width(width: int) -> int:
     return int(round(width * TARGET_RATIO_HEIGHT / TARGET_RATIO_WIDTH))
 
 
-def make_canvas(image: Image.Image, width: int, height: int) -> Image.Image:
-    background = Image.new("RGB", (width, height), (26, 12, 12))
-    fit = image.copy()
-    fit.thumbnail((width, height), Image.Resampling.LANCZOS, reducing_gap=3.0)
-    left = (width - fit.width) // 2
-    top = (height - fit.height) // 2
-    background.paste(fit, (left, top))
-    return background
-
-
-def make_squircle_mask(width: int, height: int) -> Image.Image:
-    mask = Image.new("L", (width, height), 0)
-    draw = ImageDraw.Draw(mask)
-    radius = int(min(width, height) * 0.30)
-    draw.rounded_rectangle((0, 0, width, height), radius=radius, fill=255)
-    return mask
+def make_filled_frame(image: Image.Image, width: int, height: int) -> Image.Image:
+    # Force full-bleed output at target ratio so there are no edge gaps.
+    return ImageOps.fit(
+        image,
+        (width, height),
+        method=Image.Resampling.LANCZOS,
+        centering=(0.5, 0.5),
+    )
 
 
 def process_image(source: Path, output_dir: Path, widths: list[int], quality: int) -> list[Path]:
@@ -62,11 +54,10 @@ def process_image(source: Path, output_dir: Path, widths: list[int], quality: in
 
     for width in widths:
         height = get_height_from_width(width)
-        canvas = make_canvas(image, width, height).convert("RGBA")
-        canvas.putalpha(make_squircle_mask(width, height))
+        frame = make_filled_frame(image, width, height).convert("RGB")
 
         output_path = output_dir / f"{slug}-{width}x{height}.webp"
-        canvas.save(
+        frame.save(
             output_path,
             format="WEBP",
             quality=quality,
