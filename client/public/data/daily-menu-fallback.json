@@ -1,0 +1,11 @@
+[
+  { "category": "Breakfast Specials", "dish": "English Breakfast Plate", "price": 3500, "sortOrder": 10, "onDemand": false },
+  { "category": "Breakfast Specials", "dish": "Club Sandwich", "price": 2500, "sortOrder": 20, "onDemand": false },
+  { "category": "Small Chops & Starters", "dish": "Mini Samosas", "price": 1800, "sortOrder": 30, "onDemand": false },
+  { "category": "Small Chops & Starters", "dish": "Chicken Wings", "price": 3000, "sortOrder": 40, "onDemand": false },
+  { "category": "Pizzas", "dish": "Classic Margherita", "price": 5000, "sortOrder": 50, "onDemand": false },
+  { "category": "BBQ & Grill", "dish": "BBQ Chicken (half)", "price": 4500, "sortOrder": 60, "onDemand": false },
+  { "category": "Pasta & More", "dish": "Spaghetti Bolognese", "price": 3200, "sortOrder": 70, "onDemand": false },
+  { "category": "Cameroonian & African Dishes", "dish": "Ndole and Plantains", "price": 3500, "sortOrder": 80, "onDemand": false },
+  { "category": "Drinks", "dish": "Fresh Juice", "price": 1200, "sortOrder": 90, "onDemand": false }
+]

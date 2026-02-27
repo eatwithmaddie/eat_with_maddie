@@ -1,7 +1,10 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import NotFound from "./pages/NotFound";
+import FullMenu from "./pages/FullMenu";
 import Home from "./pages/Home";
 
 // NOTE: About Theme
@@ -18,7 +21,11 @@ function App() {
       >
         <TooltipProvider>
           <Toaster />
-          <Home />
+          <Switch>
+            <Route path="/" component={Home} />
+            <Route path="/full-menu" component={FullMenu} />
+            <Route component={NotFound} />
+          </Switch>
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>
